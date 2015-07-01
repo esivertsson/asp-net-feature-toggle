@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<OrderedTest name="orderedtest1" storage="c:\users\emsiv1\documents\github\asp-net-feature-toggle\tests\orderedtest1.orderedtest" id="e66184d5-20d5-4215-9be4-c5f36e3d82d4" continueAfterFailure="true" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestLinks>
+    <TestLink id="2b0b612f-f3d1-0375-7ab8-cca936ebe322" name="When_FeatureList_Is_UnInitialized_Then_Return_False" storage="bin\debug\tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="976374e4-9755-01e1-f0b9-3ceccd62b24d" name="When_Feature_Is_Undefined_Then_Return_False" storage="bin\debug\tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="2493c26d-5c07-847a-d7a5-2eebdb508f18" name="When_Feature_Name_Is_Empty_Or_Null_Then_Return_False" storage="bin\debug\tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="e55dd956-1f99-e67a-d89a-9847d0a0f0ef" name="When_Feature_Is_Defined_But_ToggleOn_Is_False_Then_Return_False" storage="bin\debug\tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="9266e2a3-b3dd-ed31-15cb-37208d640ca0" name="When_Feature_Is_Defined_And_ToggleOn_Is_True_Then_Return_True" storage="bin\debug\tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  </TestLinks>
+</OrderedTest>
