@@ -51,8 +51,8 @@
              (undefined in web.config)
             
             <asp:Label id="featureD" runat="server">
-                <h1>Feature D</h1>
-                (turned on in web.config, but toggle is checked in code-behind)
+                <h1>Feature D: On</h1>
+                (turned on in web.config, but value is checked in code-behind)
             </asp:Label>
         </form>
     </body>
