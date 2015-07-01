@@ -1,5 +1,6 @@
 ## What is a feature toggle?
 A FeatureToggle is a way of making code more releasable by 
+
 1. Hiding unfinished features behind a "toggle"
 2. Releasing new features gradually, by letting only a subset of users use the feature
 
@@ -34,15 +35,17 @@ else
 
 ## Releasing features gradually
 *Will be implemented soon*
+
 This can be done in two ways:
-1. Specify a list of users that can access the feature
+
+* Specify a list of users that can access the feature
 ```
 <featureList>
   <add name="AFeature" toggleOn="true" userList="AFeature_Users.config" />
 </featureList>
 ```
 
-2. Users can be randomly chosen
+* Users can be randomly chosen
 ```
 <featureList>
   <add name="AFeature" toggleOn="true" randomFactor="0.1" />
