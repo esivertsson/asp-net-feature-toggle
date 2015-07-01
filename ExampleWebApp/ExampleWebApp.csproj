@@ -81,9 +81,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\FeatureToggle\FeatureToggle.csproj">
       <Project>{1655AB7D-6033-4B68-BCB9-FD5BD560301F}</Project>
       <Name>FeatureToggle</Name>
