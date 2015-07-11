@@ -6,7 +6,7 @@ namespace AspNetFeatureToggle.Configuration
     {
         public void Add(FeatureElement newElement)
         {
-            this.BaseAdd(newElement);
+            BaseAdd(newElement);
         }
 
         protected override ConfigurationElement CreateNewElement()

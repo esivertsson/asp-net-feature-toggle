@@ -9,7 +9,10 @@ namespace ExampleWebApp
         {
             FeatureToggle.Initialize();
 
-            this.featureD.Visible = FeatureToggle.Check("featureD");
+            string userName = this.featureCTextBox.Text;
+            this.featureCLabel.Text = FeatureToggle.IsEnabled("featureC", userName) ? "On" : "Off";
+
+            this.featureD.Visible = FeatureToggle.IsEnabled("featureD");
         }
     }
 }

@@ -11,7 +11,7 @@
         <form id="HtmlForm" runat="server">
             
             <h1>Feature A:
-            <% if (FeatureToggle.Check("featureA"))
+            <% if (FeatureToggle.IsEnabled("featureA"))
                { %>
                 On
             <% } else { %>
@@ -21,7 +21,7 @@
             (turned on in web.config)
             
             <h1>Feature B:
-            <% if (FeatureToggle.Check("featureB"))
+            <% if (FeatureToggle.IsEnabled("featureB"))
                { %>
                 On
             <% } else { %>
@@ -30,18 +30,18 @@
              </h1>
             (turned off in web.config)
             
-            <h1>Feature C:
-            <% if (FeatureToggle.Check("featureC"))
-               { %>
-                On
-            <% } else { %>
-                Off
-            <% } %>
-             </h1>
-             (defined in web.config, but no toggle-value set)
+            <h1>Feature C: <asp:Label id="featureCLabel" runat="server"></asp:Label></h1>
+            (turned on in web.config, but with a list of specific users and is checked in code-behind)<br/>
+            Try a username (UserA or UserB):
+            <asp:TextBox ID="featureCTextBox" AutoPostBack="true" runat="server"></asp:TextBox>
+            
+            <asp:Label id="featureD" runat="server">
+                <h1>Feature D: On</h1>
+                (turned on in web.config, but value is checked in code-behind)
+            </asp:Label>
             
             <h1>Undefined feature:
-            <% if (FeatureToggle.Check("featureUndefined"))
+            <% if (FeatureToggle.IsEnabled("featureUndefined"))
                { %>
                 On
             <% } else { %>
@@ -49,11 +49,6 @@
             <% } %>
              </h1>
              (undefined in web.config)
-            
-            <asp:Label id="featureD" runat="server">
-                <h1>Feature D: On</h1>
-                (turned on in web.config, but value is checked in code-behind)
-            </asp:Label>
         </form>
     </body>
 </html>

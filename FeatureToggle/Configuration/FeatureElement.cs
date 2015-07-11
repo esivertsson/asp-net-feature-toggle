@@ -4,42 +4,46 @@ namespace AspNetFeatureToggle.Configuration
 {
     public class FeatureElement : ConfigurationElement
     {
-        private string _name;
-        private bool? _toggleOn;
-
-        public bool UseForTest { get; set; }
-
         [ConfigurationProperty("name", IsRequired = true)]
-        public string Name
+        public virtual string Name
         {
             get
             {
-                if (this.UseForTest)
-                {
-                    return this._name;
-                }
                 return this["name"] as string;
             }
+
+            // Setter is present but empty, so that child-classes can override it
+
             set
             {
-                this._name = value;
             }
         }
 
-        [ConfigurationProperty("toggleOn", IsRequired = false)]
-        public bool? ToggleOn
+        [ConfigurationProperty("enabled", IsRequired = true)]
+        public virtual bool? Enabled
         {
             get
             {
-                if (this.UseForTest)
-                {
-                    return this._toggleOn;
-                }
-                return this["toggleOn"] as bool?;
+                return this["enabled"] as bool?;
             }
+
+            // Setter is present but empty, so that child-classes can override it
             set
             {
-                this._toggleOn = value;
+            }
+        }
+
+        [ConfigurationProperty("userListPath", IsRequired = false)]
+        public virtual string UserListPath
+        {
+            get
+            {
+                return this["userListPath"] as string;
+            }
+
+            // Setter is present but empty, so that child-classes can override it
+            set
+            {
             }
         }
     }

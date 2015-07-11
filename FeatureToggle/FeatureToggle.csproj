@@ -43,8 +43,11 @@
   <ItemGroup>
     <Compile Include="Configuration\FeatureCollection.cs" />
     <Compile Include="Configuration\FeatureElement.cs" />
+    <Compile Include="FeatureData.cs" />
     <Compile Include="FeatureToggle.cs" />
     <Compile Include="Configuration\FeatureToggleSection.cs" />
+    <Compile Include="FileUserListReader.cs" />
+    <Compile Include="IUserListReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

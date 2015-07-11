@@ -1,46 +1,73 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using AspNetFeatureToggle.Configuration;
 
 namespace AspNetFeatureToggle
 {
     public class FeatureToggle
     {
-        private static Dictionary<string, bool> FeatureToggles { get; set; }
+        private static List<FeatureData> FeatureToggles { get; set; }
 
         public static void Initialize()
         {
-            Initialize(FeatureToggleSection.Config.FeatureList);
+            Initialize(FeatureToggleSection.Config.FeatureList, new FileUserListReader());
         }
 
-        public static void Initialize(FeatureCollection featureList)
+        public static void Initialize(FeatureCollection featureList, IUserListReader userListReader)
         {
-            FeatureToggles = new Dictionary<string, bool>();
+            FeatureToggles = new List<FeatureData>();
             foreach (FeatureElement feature in featureList)
             {
                 // The toggle is off by default
-                bool toggleOn = feature.ToggleOn.HasValue && feature.ToggleOn.Value;
+                bool enabled = feature.Enabled.HasValue && feature.Enabled.Value;
 
-                FeatureToggles.Add(feature.Name, toggleOn);
+                var userList = userListReader.GetUserNamesFromList(feature.UserListPath);
+
+                FeatureToggles.Add(new FeatureData { Name = feature.Name, Enabled = enabled, UserNamesList = userList });
             }
         }
 
-        public static bool Check(string name)
+        public static bool IsEnabled(string featureName)
         {
             if (FeatureToggles == null)
             {
-                throw new Exception("FeatureToggle must be initialized, by doing FeatureToggle.Initialize();");
+                Initialize();
             }
 
-            if (string.IsNullOrEmpty(name) || !FeatureToggles.ContainsKey(name))
+            if (string.IsNullOrEmpty(featureName) || !FeatureToggles.Any(f => f.Name.ToLower() == featureName.ToLower()))
             {
                 return false;
             }
+            
+            bool enabled = false;
+            foreach (var featureToggle in FeatureToggles)
+            {
+                if (featureToggle.Name.ToLower() == featureName.ToLower())
+                {
+                    enabled = featureToggle.Enabled;
+                }
+            }
 
-            bool toggleOn;
-            FeatureToggles.TryGetValue(name, out toggleOn);
+            return enabled;
+        }
 
-            return toggleOn;
+        public static bool IsEnabled(string featureName, string userName)
+        {
+            return IsEnabled(featureName) && UserIsInFeatureList(featureName, userName);
+        }
+
+        private static bool UserIsInFeatureList(string featureName, string userName)
+        {
+            foreach (var featureToggle in FeatureToggles)
+            {
+                if (featureToggle.Name.ToLower() == featureName.ToLower())
+                {
+                    return featureToggle.UserNamesList.Any(u => u.ToLower() == userName.ToLower());
+                }
+            }
+
+            // Feature name was not found in FeatureToggle-list
+            return false;
         }
     }
 }

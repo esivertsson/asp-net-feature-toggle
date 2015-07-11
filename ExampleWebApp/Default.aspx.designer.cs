@@ -22,6 +22,24 @@ namespace ExampleWebApp {
         protected global::System.Web.UI.HtmlControls.HtmlForm HtmlForm;
         
         /// <summary>
+        /// featureCLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label featureCLabel;
+        
+        /// <summary>
+        /// featureCTextBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox featureCTextBox;
+        
+        /// <summary>
         /// featureD control.
         /// </summary>
         /// <remarks>

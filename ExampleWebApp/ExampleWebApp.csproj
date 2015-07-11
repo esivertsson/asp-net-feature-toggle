@@ -73,6 +73,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FeatureC_UserList.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

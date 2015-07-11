@@ -1,10 +1,13 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
 
 namespace AspNetFeatureToggle.Configuration
 {
     public class FeatureToggleSection : ConfigurationSection
     {
+        private FeatureToggleSection()
+        {
+        }
+
         public static string Section
         {
             get { return "featureToggle"; }
@@ -16,10 +19,6 @@ namespace AspNetFeatureToggle.Configuration
             {
                 return ConfigurationManager.GetSection(Section) as FeatureToggleSection;
             }
-        }
-
-        private FeatureToggleSection()
-        {
         }
 
         [ConfigurationProperty("featureList", IsRequired = false)]

@@ -51,19 +51,23 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="FeaturesTest.cs" />
+    <Compile Include="FeaturesTests.cs" />
+    <Compile Include="FileUserListReaderTests.cs" />
+    <Compile Include="Mocks\FeatureElementMock.cs" />
+    <Compile Include="Mocks\UserListReaderMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserListTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OrderedTest1.orderedtest">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FeatureToggle\FeatureToggle.csproj">
       <Project>{1655ab7d-6033-4b68-bcb9-fd5bd560301f}</Project>
       <Name>FeatureToggle</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="OrderedTest1.orderedtest">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
