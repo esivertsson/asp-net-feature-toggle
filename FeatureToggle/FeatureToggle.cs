@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AspNetFeatureToggle.Configuration;
 
@@ -6,7 +7,7 @@ namespace AspNetFeatureToggle
 {
     public class FeatureToggle
     {
-        private static List<FeatureData> FeatureToggles { get; set; }
+        private static List<FeatureDataBase> FeatureToggles { get; set; }
 
         public static void Initialize()
         {
@@ -15,15 +16,21 @@ namespace AspNetFeatureToggle
 
         public static void Initialize(FeatureCollection featureList, IUserListReader userListReader)
         {
-            FeatureToggles = new List<FeatureData>();
+            FeatureToggles = new List<FeatureDataBase>();
             foreach (FeatureElement feature in featureList)
             {
-                // The toggle is off by default
+                // The toggle is disabled by default, so if HasValue is false, then toggle is disabled.
                 bool enabled = feature.Enabled.HasValue && feature.Enabled.Value;
 
-                var userList = userListReader.GetUserNamesFromList(feature.UserListPath);
-
-                FeatureToggles.Add(new FeatureData { Name = feature.Name, Enabled = enabled, UserNamesList = userList });
+                if (!string.IsNullOrEmpty(feature.UserListPath))
+                {
+                    var userList = userListReader.GetUserNamesFromList(feature.UserListPath);
+                    FeatureToggles.Add(new UserListFeatureData { Name = feature.Name, Enabled = enabled, UserNamesList = userList });                 
+                }
+                else
+                {
+                    FeatureToggles.Add(new FeatureDataBase { Name = feature.Name, Enabled = enabled });
+                }
             }
         }
 
@@ -31,24 +38,24 @@ namespace AspNetFeatureToggle
         {
             if (FeatureToggles == null)
             {
+                // Class has not been initialized, run Initialize() and continue.
                 Initialize();
             }
 
-            if (string.IsNullOrEmpty(featureName) || !FeatureToggles.Any(f => f.Name.ToLower() == featureName.ToLower()))
+            if (string.IsNullOrEmpty(featureName) || !FeatureToggles.Any(f => String.Equals(f.Name, featureName, StringComparison.CurrentCultureIgnoreCase)))
             {
                 return false;
             }
             
-            bool enabled = false;
             foreach (var featureToggle in FeatureToggles)
             {
-                if (featureToggle.Name.ToLower() == featureName.ToLower())
+                if (String.Equals(featureToggle.Name, featureName, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    enabled = featureToggle.Enabled;
+                    return featureToggle.Enabled;
                 }
             }
 
-            return enabled;
+            return false;
         }
 
         public static bool IsEnabled(string featureName, string userName)
@@ -58,16 +65,10 @@ namespace AspNetFeatureToggle
 
         private static bool UserIsInFeatureList(string featureName, string userName)
         {
-            foreach (var featureToggle in FeatureToggles)
-            {
-                if (featureToggle.Name.ToLower() == featureName.ToLower())
-                {
-                    return featureToggle.UserNamesList.Any(u => u.ToLower() == userName.ToLower());
-                }
-            }
-
-            // Feature name was not found in FeatureToggle-list
-            return false;
+            return FeatureToggles.Where(featureToggle => String.Equals(featureToggle.Name, featureName, StringComparison.CurrentCultureIgnoreCase))
+                                 .OfType<UserListFeatureData>()
+                                 .Select(userListFeature => userListFeature.UserNamesList.Any(u => String.Equals(u, userName, StringComparison.CurrentCultureIgnoreCase)))
+                                 .FirstOrDefault();
         }
     }
 }
