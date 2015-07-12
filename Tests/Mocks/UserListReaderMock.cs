@@ -5,7 +5,7 @@ namespace Tests.Mocks
 {
     public class UserListReaderMock : IUserListReader
     {
-        public List<string> GetUserNamesFromList(string userListSource)
+        public IEnumerable<string> GetUserNamesFromList(string userListSource)
         {
             if (userListSource == null)
             {

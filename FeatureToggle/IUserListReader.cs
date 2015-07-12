@@ -4,6 +4,6 @@ namespace AspNetFeatureToggle
 {
     public interface IUserListReader
     {
-        List<string> GetUserNamesFromList(string userListSource);
+        IEnumerable<string> GetUserNamesFromList(string userListSource);
     }
 }

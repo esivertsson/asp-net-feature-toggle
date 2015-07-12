@@ -6,7 +6,13 @@ namespace AspNetFeatureToggle
 {
     public class FileUserListReader : IUserListReader
     {
-        public List<string> GetUserNamesFromList(string userListSource)
+        /// <summary>
+        /// Gets a list of user name from the file specified in FeatureToggle configuration.
+        /// </summary>
+        /// <param name="userListSource">The user list file name</param>
+        /// <exception cref="System.ArgumentException">When user list file is not found</exception>
+        /// <returns>A list of user names</returns>
+        public IEnumerable<string> GetUserNamesFromList(string userListSource)
         {
             if (string.IsNullOrEmpty(userListSource))
             {
@@ -26,6 +32,7 @@ namespace AspNetFeatureToggle
                 return new List<string>();                                
             }
 
+            // Normalize line endings: http://stackoverflow.com/questions/841396/what-is-a-quick-way-to-force-crlf-in-c-sharp-net
             string formattedFileContent = fileContent.Replace("\r\n", "\n").Replace("\r", "\n");
 
             return new List<string>(formattedFileContent.Split('\n'));

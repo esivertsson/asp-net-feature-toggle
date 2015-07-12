@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using AspNetFeatureToggle;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -18,7 +19,7 @@ namespace Tests
             var result = reader.GetUserNamesFromList(string.Empty);
 
             // Verify
-            Assert.AreEqual(0, result.Count);
+            Assert.AreEqual(0, result.Count());
         }
 
         [TestMethod]
@@ -32,7 +33,7 @@ namespace Tests
             var result = reader.GetUserNamesFromList(fileName);
 
             // Verify
-            Assert.AreEqual(0, result.Count);
+            Assert.AreEqual(0, result.Count());
 
             // TearDown
             File.Delete(fileName);
@@ -62,9 +63,9 @@ namespace Tests
             var result = reader.GetUserNamesFromList(fileName);
 
             // Verify
-            Assert.AreEqual(2, result.Count);
-            CollectionAssert.Contains(result, "User1");
-            CollectionAssert.Contains(result, "User2");
+            Assert.AreEqual(2, result.Count());
+            CollectionAssert.Contains(result.ToArray(), "User1");
+            CollectionAssert.Contains(result.ToArray(), "User2");
 
             // TearDown
             File.Delete(fileName);
@@ -83,11 +84,11 @@ namespace Tests
             var result = reader.GetUserNamesFromList(fileName);
 
             // Verify
-            Assert.AreEqual(4, result.Count);
-            CollectionAssert.Contains(result, "User1");
-            CollectionAssert.Contains(result, "User2");
-            CollectionAssert.Contains(result, "User3");
-            CollectionAssert.Contains(result, "User4");
+            Assert.AreEqual(4, result.Count());
+            CollectionAssert.Contains(result.ToArray(), "User1");
+            CollectionAssert.Contains(result.ToArray(), "User2");
+            CollectionAssert.Contains(result.ToArray(), "User3");
+            CollectionAssert.Contains(result.ToArray(), "User4");
 
             // TearDown
             File.Delete(fileName);
