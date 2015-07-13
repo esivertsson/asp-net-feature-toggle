@@ -53,17 +53,18 @@ namespace Tests
         {
             // Setup
             const string FEATURE_NAME = "Feature1";
+            const string TEN_PERCENT_RANDOM_FACTOR = "0.1";
             FeatureToggle.Initialize(
                 new FeatureCollection
                     {
-                        NewFeature(FEATURE_NAME, true, "0.1")
+                        NewFeature(FEATURE_NAME, true, TEN_PERCENT_RANDOM_FACTOR)
                     },
                 new UserListReaderMock());
 
             // Execute
-            int nrOfRequests = 100;
+            const int NR_OF_REQUESTS = 100;
             var resultList = new List<bool>();
-            for (int i = 0; i < nrOfRequests; i++)
+            for (int i = 0; i < NR_OF_REQUESTS; i++)
             {
                 resultList.Add(FeatureToggle.IsEnabled(FEATURE_NAME));
             }
@@ -74,11 +75,11 @@ namespace Tests
             
             // Verify
             Assert.IsFalse(isDisabled == 0);
-            Assert.IsFalse(isDisabled == nrOfRequests);
+            Assert.IsFalse(isDisabled == NR_OF_REQUESTS);
             Assert.IsTrue(isDisabled > 80);
 
             Assert.IsFalse(isEnabled == 0);
-            Assert.IsFalse(isEnabled == nrOfRequests);
+            Assert.IsFalse(isEnabled == NR_OF_REQUESTS);
             Assert.IsTrue(isEnabled > 3);
 
         }
