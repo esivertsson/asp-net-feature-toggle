@@ -46,5 +46,19 @@ namespace AspNetFeatureToggle.Configuration
             {
             }
         }
+
+        [ConfigurationProperty("randomFactor", IsRequired = false)]
+        public virtual string RandomFactor
+        {
+            get
+            {
+                return this["randomFactor"] as string;
+            }
+
+            // Setter is present but empty, so that child-classes can override it
+            set
+            {
+            }
+        }
     }
 }

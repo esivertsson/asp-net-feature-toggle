@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using AspNetFeatureToggle.Configuration;
 
@@ -8,6 +9,8 @@ namespace AspNetFeatureToggle
     public class FeatureToggle
     {
         private static List<FeatureDataBase> FeatureToggles { get; set; }
+
+        private static Random randomGenerator = new Random();
 
         public static void Initialize()
         {
@@ -26,6 +29,12 @@ namespace AspNetFeatureToggle
                 {
                     var userList = userListReader.GetUserNamesFromList(feature.UserListPath);
                     FeatureToggles.Add(new UserListFeatureData { Name = feature.Name, Enabled = enabled, UserNamesList = userList });                 
+                }
+                else if (!string.IsNullOrEmpty(feature.RandomFactor))
+                {
+                    // Convert string to float
+                    float factorValue = float.Parse(feature.RandomFactor, CultureInfo.InvariantCulture.NumberFormat);
+                    FeatureToggles.Add(new RandomFactorFeatureData { Name = feature.Name, Enabled = enabled, RandomFactor = factorValue });
                 }
                 else
                 {
@@ -51,6 +60,12 @@ namespace AspNetFeatureToggle
             {
                 if (String.Equals(featureToggle.Name, featureName, StringComparison.CurrentCultureIgnoreCase))
                 {
+                    var randomFactorFeature = featureToggle as RandomFactorFeatureData;
+                    if (randomFactorFeature != null)
+                    {
+                        return featureToggle.Enabled && randomGenerator.NextDouble() <= randomFactorFeature.RandomFactor;
+                    }
+
                     return featureToggle.Enabled;
                 }
             }
