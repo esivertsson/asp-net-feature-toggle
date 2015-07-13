@@ -40,6 +40,16 @@
                 (turned on in web.config, but value is checked in code-behind)
             </asp:Label>
             
+            <h1>Feature E:
+            <% if (FeatureToggle.IsEnabled("featureE"))
+               { %>
+                On
+            <% } else { %>
+                Off
+            <% } %>
+             </h1>
+             (turned on and defined with random factor 50% in web.config, reload page to see value change)
+            
             <h1>Undefined feature:
             <% if (FeatureToggle.IsEnabled("featureUndefined"))
                { %>
