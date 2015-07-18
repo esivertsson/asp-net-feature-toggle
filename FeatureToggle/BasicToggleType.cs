@@ -1,6 +1,6 @@
 ﻿namespace AspNetFeatureToggle
 {
-    public class FeatureDataBase
+    public class BasicToggleType
     {
         public string Name { get; set; }
 

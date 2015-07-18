@@ -8,10 +8,10 @@ using Tests.Mocks;
 namespace Tests
 {
     [TestClass]
-    public class RandomFactorTests
+    public class RandomToggleTypeTests
     {
         [TestMethod]
-        public void When_Feature_Is_Defined_With_Random_Factor_One_Then_Return_True()
+        public void When_Feature_Is_Defined_With_Random_Factor_One_Then_Always_Return_True()
         {
             // Setup
             const string FEATURE_NAME = "Feature1";
@@ -30,7 +30,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void When_Feature_Is_Defined_With_Random_Factor_Zero_Then_Return_False()
+        public void When_Feature_Is_Defined_With_Random_Factor_Zero_Then_Always_Return_False()
         {
             // Setup
             const string FEATURE_NAME = "Feature1";
@@ -69,18 +69,18 @@ namespace Tests
                 resultList.Add(FeatureToggle.IsEnabled(FEATURE_NAME));
             }
             
-            int isEnabled = resultList.FindAll(b => b == true).Count;
-            int isDisabled = resultList.FindAll(b => b == false).Count;
-            Console.WriteLine(isEnabled + "/" + isDisabled);
+            int nrIsEnabled = resultList.FindAll(b => b == true).Count;
+            int nrIsDisabled = resultList.FindAll(b => b == false).Count;
+            Console.WriteLine(nrIsEnabled + "/" + nrIsDisabled);
             
             // Verify
-            Assert.IsFalse(isDisabled == 0);
-            Assert.IsFalse(isDisabled == NR_OF_REQUESTS);
-            Assert.IsTrue(isDisabled > 80);
+            Assert.IsFalse(nrIsDisabled == 0);
+            Assert.IsFalse(nrIsDisabled == NR_OF_REQUESTS);
+            Assert.IsTrue(nrIsDisabled > 80);
 
-            Assert.IsFalse(isEnabled == 0);
-            Assert.IsFalse(isEnabled == NR_OF_REQUESTS);
-            Assert.IsTrue(isEnabled > 3);
+            Assert.IsFalse(nrIsEnabled == 0);
+            Assert.IsFalse(nrIsEnabled == NR_OF_REQUESTS);
+            Assert.IsTrue(nrIsEnabled > 3);
 
         }
 

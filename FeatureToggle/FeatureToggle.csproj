@@ -43,14 +43,14 @@
   <ItemGroup>
     <Compile Include="Configuration\FeatureCollection.cs" />
     <Compile Include="Configuration\FeatureElement.cs" />
-    <Compile Include="FeatureDataBase.cs" />
+    <Compile Include="BasicToggleType.cs" />
     <Compile Include="FeatureToggle.cs" />
     <Compile Include="Configuration\FeatureToggleSection.cs" />
     <Compile Include="FileUserListReader.cs" />
     <Compile Include="IUserListReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RandomFactorFeatureData.cs" />
-    <Compile Include="UserListFeatureData.cs" />
+    <Compile Include="RandomToggleType.cs" />
+    <Compile Include="UserListToggleType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

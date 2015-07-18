@@ -8,7 +8,7 @@ namespace AspNetFeatureToggle
 {
     public class FeatureToggle
     {
-        private static List<FeatureDataBase> FeatureToggles { get; set; }
+        private static List<BasicToggleType> FeatureToggles { get; set; }
 
         private static Random randomGenerator = new Random();
 
@@ -19,27 +19,11 @@ namespace AspNetFeatureToggle
 
         public static void Initialize(FeatureCollection featureList, IUserListReader userListReader)
         {
-            FeatureToggles = new List<FeatureDataBase>();
+            FeatureToggles = new List<BasicToggleType>();
             foreach (FeatureElement feature in featureList)
             {
-                // The toggle is disabled by default, so if HasValue is false, then toggle is disabled.
-                bool enabled = feature.Enabled.HasValue && feature.Enabled.Value;
-
-                if (!string.IsNullOrEmpty(feature.UserListPath))
-                {
-                    var userList = userListReader.GetUserNamesFromList(feature.UserListPath);
-                    FeatureToggles.Add(new UserListFeatureData { Name = feature.Name, Enabled = enabled, UserNamesList = userList });                 
-                }
-                else if (!string.IsNullOrEmpty(feature.RandomFactor))
-                {
-                    // Convert string to float
-                    float factorValue = float.Parse(feature.RandomFactor, CultureInfo.InvariantCulture.NumberFormat);
-                    FeatureToggles.Add(new RandomFactorFeatureData { Name = feature.Name, Enabled = enabled, RandomFactor = factorValue });
-                }
-                else
-                {
-                    FeatureToggles.Add(new FeatureDataBase { Name = feature.Name, Enabled = enabled });
-                }
+                var toggleType = CreateToggleType(feature, userListReader);
+                FeatureToggles.Add(toggleType);
             }
         }
 
@@ -60,10 +44,10 @@ namespace AspNetFeatureToggle
             {
                 if (String.Equals(featureToggle.Name, featureName, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    var randomFactorFeature = featureToggle as RandomFactorFeatureData;
-                    if (randomFactorFeature != null)
+                    var randomToggle = featureToggle as RandomToggleType;
+                    if (randomToggle != null)
                     {
-                        return featureToggle.Enabled && randomGenerator.NextDouble() <= randomFactorFeature.RandomFactor;
+                        return featureToggle.Enabled && randomGenerator.NextDouble() <= randomToggle.RandomFactor;
                     }
 
                     return featureToggle.Enabled;
@@ -78,10 +62,36 @@ namespace AspNetFeatureToggle
             return IsEnabled(featureName) && UserIsInFeatureList(featureName, userName);
         }
 
+        private static BasicToggleType CreateToggleType(FeatureElement feature, IUserListReader userListReader)
+        {
+            BasicToggleType toggleType;
+
+            // The toggle is disabled by default, so if HasValue is false, then toggle is disabled.
+            bool enabled = feature.Enabled.HasValue && feature.Enabled.Value;
+
+            if (!string.IsNullOrEmpty(feature.UserListPath))
+            {
+                var userList = userListReader.GetUserNamesFromList(feature.UserListPath);
+                toggleType = new UserListToggleType { Name = feature.Name, Enabled = enabled, UserNamesList = userList };
+            }
+            else if (!string.IsNullOrEmpty(feature.RandomFactor))
+            {
+                // Convert string to float
+                float factorValue = float.Parse(feature.RandomFactor, CultureInfo.InvariantCulture.NumberFormat);
+                toggleType = new RandomToggleType { Name = feature.Name, Enabled = enabled, RandomFactor = factorValue };
+            }
+            else
+            {
+                toggleType = new BasicToggleType { Name = feature.Name, Enabled = enabled };
+            }
+
+            return toggleType;
+        }
+
         private static bool UserIsInFeatureList(string featureName, string userName)
         {
             return FeatureToggles.Where(featureToggle => String.Equals(featureToggle.Name, featureName, StringComparison.CurrentCultureIgnoreCase))
-                                 .OfType<UserListFeatureData>()
+                                 .OfType<UserListToggleType>()
                                  .Select(userListFeature => userListFeature.UserNamesList.Any(u => String.Equals(u, userName, StringComparison.CurrentCultureIgnoreCase)))
                                  .FirstOrDefault();
         }

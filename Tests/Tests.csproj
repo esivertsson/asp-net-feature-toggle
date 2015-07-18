@@ -56,7 +56,7 @@
     <Compile Include="Mocks\FeatureElementMock.cs" />
     <Compile Include="Mocks\UserListReaderMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RandomFactorTests.cs" />
+    <Compile Include="RandomToggleTypeTests.cs" />
     <Compile Include="UserListTests.cs" />
   </ItemGroup>
   <ItemGroup>

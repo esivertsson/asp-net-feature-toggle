@@ -1,7 +1,7 @@
 ﻿
 namespace AspNetFeatureToggle
 {
-    public class RandomFactorFeatureData : FeatureDataBase
+    public class RandomToggleType : BasicToggleType
     {
         public float RandomFactor { get; set; }
     }
