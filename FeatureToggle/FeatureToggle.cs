@@ -9,9 +9,7 @@ namespace AspNetFeatureToggle
     public class FeatureToggle
     {
         private static List<BasicToggleType> FeatureToggles { get; set; }
-
-        private static Random randomGenerator = new Random();
-
+        
         public static void Initialize()
         {
             Initialize(FeatureToggleSection.Config.FeatureList, new FileUserListReader());
@@ -29,6 +27,11 @@ namespace AspNetFeatureToggle
 
         public static bool IsEnabled(string featureName)
         {
+            return IsEnabled(featureName, string.Empty);
+        }
+
+        public static bool IsEnabled(string featureName, string userName)
+        {
             if (FeatureToggles == null)
             {
                 // Class has not been initialized, run Initialize() and continue.
@@ -39,27 +42,16 @@ namespace AspNetFeatureToggle
             {
                 return false;
             }
-            
+
             foreach (var featureToggle in FeatureToggles)
             {
                 if (String.Equals(featureToggle.Name, featureName, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    var randomToggle = featureToggle as RandomToggleType;
-                    if (randomToggle != null)
-                    {
-                        return featureToggle.Enabled && randomGenerator.NextDouble() <= randomToggle.RandomFactor;
-                    }
-
-                    return featureToggle.Enabled;
+                    return featureToggle.IsEnabled(new RequestData { UserName = userName });
                 }
             }
 
             return false;
-        }
-
-        public static bool IsEnabled(string featureName, string userName)
-        {
-            return IsEnabled(featureName) && UserIsInFeatureList(featureName, userName);
         }
 
         private static BasicToggleType CreateToggleType(FeatureElement feature, IUserListReader userListReader)
@@ -86,14 +78,6 @@ namespace AspNetFeatureToggle
             }
 
             return toggleType;
-        }
-
-        private static bool UserIsInFeatureList(string featureName, string userName)
-        {
-            return FeatureToggles.Where(featureToggle => String.Equals(featureToggle.Name, featureName, StringComparison.CurrentCultureIgnoreCase))
-                                 .OfType<UserListToggleType>()
-                                 .Select(userListFeature => userListFeature.UserNamesList.Any(u => String.Equals(u, userName, StringComparison.CurrentCultureIgnoreCase)))
-                                 .FirstOrDefault();
         }
     }
 }

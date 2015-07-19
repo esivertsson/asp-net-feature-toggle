@@ -50,6 +50,7 @@
     <Compile Include="IUserListReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomToggleType.cs" />
+    <Compile Include="RequestData.cs" />
     <Compile Include="UserListToggleType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
