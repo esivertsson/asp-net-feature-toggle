@@ -35,7 +35,16 @@ namespace AspNetFeatureToggle
             // Normalize line endings: http://stackoverflow.com/questions/841396/what-is-a-quick-way-to-force-crlf-in-c-sharp-net
             string formattedFileContent = fileContent.Replace("\r\n", "\n").Replace("\r", "\n");
 
-            return new List<string>(formattedFileContent.Split('\n'));
+            var validUserNames = new List<string>();
+            foreach (string entry in formattedFileContent.Split('\n'))
+            {
+                if (!string.IsNullOrEmpty(entry))
+                {
+                    validUserNames.Add(entry);
+                }
+            }
+
+            return validUserNames;
         }
     }
 }

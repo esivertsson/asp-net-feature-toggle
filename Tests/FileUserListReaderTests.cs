@@ -94,6 +94,27 @@ namespace Tests
             File.Delete(fileName);
         }
 
+        [TestMethod]
+        public void When_File_Contains_Empty_Lines_Then_UserList_Only_Contains_Actual_User_Names()
+        {
+            // Setup
+            const string FILE_CONTENT = "User1\r\nUser2\n\n";
+            var fileName = CreateFileWithContent(FILE_CONTENT);
+
+            var reader = new FileUserListReader();
+
+            // Execute
+            var result = reader.GetUserNamesFromList(fileName);
+
+            // Verify
+            Assert.AreEqual(2, result.Count());
+            CollectionAssert.Contains(result.ToArray(), "User1");
+            CollectionAssert.Contains(result.ToArray(), "User2");
+
+            // TearDown
+            File.Delete(fileName);
+        }
+
         private static string CreateFileWithContent(string fileContent)
         {
             var fileName = Guid.NewGuid() + ".txt";
