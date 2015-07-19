@@ -11,7 +11,7 @@ namespace Tests
     public class RandomToggleTypeTests
     {
         [TestMethod]
-        public void When_Feature_Is_Defined_With_Random_Factor_One_Then_Always_Return_True()
+        public void When_Feature_Is_Defined_With_Random_Factor_One_With_Decimal_Then_Always_Return_True()
         {
             // Setup
             const string FEATURE_NAME = "Feature1";
@@ -27,6 +27,82 @@ namespace Tests
 
             // Verify
             Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void When_Feature_Is_Defined_With_Random_Factor_One_Then_Always_Return_True()
+        {
+            // Setup
+            const string FEATURE_NAME = "Feature1";
+            FeatureToggle.Initialize(
+                new FeatureCollection
+                    {
+                        NewFeature(FEATURE_NAME, true, "1")
+                    },
+                new UserListReaderMock());
+
+            // Execute
+            bool result = FeatureToggle.IsEnabled(FEATURE_NAME);
+
+            // Verify
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void When_Feature_Is_Defined_With_Random_Factor_Bigger_Than_One_Then_Return_True()
+        {
+            // Setup
+            const string FEATURE_NAME = "Feature1";
+            FeatureToggle.Initialize(
+                new FeatureCollection
+                    {
+                        NewFeature(FEATURE_NAME, true, "100.0")
+                    },
+                new UserListReaderMock());
+
+            // Execute
+            bool result = FeatureToggle.IsEnabled(FEATURE_NAME);
+
+            // Verify
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void When_Feature_Is_Defined_With_Random_Factor_Below_Zero_Then_Return_False()
+        {
+            // Setup
+            const string FEATURE_NAME = "Feature1";
+            FeatureToggle.Initialize(
+                new FeatureCollection
+                    {
+                        NewFeature(FEATURE_NAME, true, "-100.0")
+                    },
+                new UserListReaderMock());
+
+            // Execute
+            bool result = FeatureToggle.IsEnabled(FEATURE_NAME);
+
+            // Verify
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void When_Feature_Is_Defined_With_Random_Factor_Zero_With_Decimal_Then_Always_Return_False()
+        {
+            // Setup
+            const string FEATURE_NAME = "Feature1";
+            FeatureToggle.Initialize(
+                new FeatureCollection
+                    {
+                        NewFeature(FEATURE_NAME, true, "0.0")
+                    },
+                new UserListReaderMock());
+
+            // Execute
+            bool result = FeatureToggle.IsEnabled(FEATURE_NAME);
+
+            // Verify
+            Assert.IsFalse(result);
         }
 
         [TestMethod]

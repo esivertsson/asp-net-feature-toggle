@@ -88,6 +88,26 @@ namespace Tests
             Assert.IsFalse(result);
         }
 
+        [TestMethod]
+        public void When_User_Name_Is_Empty_Then_Return_False()
+        {
+            // Setup
+            const string FEATURE_NAME = "Feature1";
+            const string USER_NAME = "aUser";
+            FeatureToggle.Initialize(
+                new FeatureCollection
+                    {
+                        NewFeature(FEATURE_NAME, true, USER_NAME)
+                    },
+                new UserListReaderMock());
+
+            // Execute
+            bool result = FeatureToggle.IsEnabled(FEATURE_NAME, string.Empty);
+
+            // Verify
+            Assert.IsFalse(result);
+        }
+
         private FeatureElement NewFeature(string name, bool toggleOn, string userNames)
         {
             return new FeatureElementMock
