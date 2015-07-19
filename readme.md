@@ -15,7 +15,7 @@ Read Martin Fowlers blog post called [FeatureToggle](http://martinfowler.com/bli
   
   <featureToggle>
     <featureList>
-      <add name="AFeature" toggleOn="true" />
+      <add name="AFeature" isEnabled="true" />
     </featureList>
   </featureToggle>
 </configuration>
@@ -34,20 +34,35 @@ else
 ```
 
 ## Releasing features gradually
-*Will be implemented soon*
-
 This can be done in two ways:
 
 * Specify a list of users that can access the feature
 ```
 <featureList>
-  <add name="AFeature" toggleOn="true" userList="AFeature_Users.config" />
+  <add name="AFeature" isEnabled="true" userListPath="AFeature_Users.config" />
+</featureList>
+
+if (FeatureToggle.Check(<feature name>, <user name>))
+{
+    // Do the new stuff
+}
+else
+{
+    // Do the old stuff
+}
+```
+
+
+* Users can be randomly chosen, for A/B testing or canary releasing
+```
+<featureList>
+  <add name="AFeature" isEnabled="true" randomFactor="0.1" />
 </featureList>
 ```
 
-* Users can be randomly chosen
-```
-<featureList>
-  <add name="AFeature" toggleOn="true" randomFactor="0.1" />
-</featureList>
-```
+
+## Useful lessons learned about feature toggles from [InfoQ talk] (http://www.infoq.com/presentations/Feature-Bits)
+* Limit the number of FeatureToggles 
+* FeatureToggle should have a short lifetime
+* Have as few places as possible where code is wrapped, preferrably only one per FeatureToggle.
+* Use a naming convention 
