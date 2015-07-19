@@ -53,16 +53,18 @@ else
 ```
 
 
-* Users can be randomly chosen, for A/B testing or canary releasing
+* Users can be randomly chosen, for example for A/B testing or canary releasing
 ```
 <featureList>
   <add name="AFeature" isEnabled="true" randomFactor="0.1" />
 </featureList>
 ```
+randomFactor = 0.1 means 10% of requests will have the feature enabled.
+0.5 is 50% and so on.
 
 
-## Useful lessons learned about feature toggles from [InfoQ talk] (http://www.infoq.com/presentations/Feature-Bits)
+## Useful lessons learned about feature toggles from this [InfoQ talk] (http://www.infoq.com/presentations/Feature-Bits)
 * Limit the number of FeatureToggles 
-* FeatureToggle should have a short lifetime
+* A FeatureToggle should have a short lifetime
 * Have as few places as possible where code is wrapped, preferrably only one per FeatureToggle.
 * Use a naming convention 
