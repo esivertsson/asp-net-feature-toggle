@@ -15,7 +15,7 @@ Read Martin Fowlers blog post called [FeatureToggle](http://martinfowler.com/bli
   
   <featureToggle>
     <featureList>
-      <add name="AFeature" isEnabled="true" />
+      <add name="AFeature" enabled="true" />
     </featureList>
   </featureToggle>
 </configuration>
@@ -23,7 +23,7 @@ Read Martin Fowlers blog post called [FeatureToggle](http://martinfowler.com/bli
 
 ## Hiding unfinished features
 ```
-if (FeatureToggle.Check("AFeature"))
+if (FeatureToggle.IsEnabled("AFeature"))
 {
     // Do the new stuff
 }
@@ -39,10 +39,10 @@ This can be done in two ways:
 * Specify a list of users that can access the feature
 ```
 <featureList>
-  <add name="AFeature" isEnabled="true" userListPath="AFeature_Users.config" />
+  <add name="AFeature" enabled="true" userListPath="AFeature_Users.config" />
 </featureList>
 
-if (FeatureToggle.Check(<feature name>, <user name>))
+if (FeatureToggle.IsEnabled(<feature name>, <user name>))
 {
     // Do the new stuff
 }
@@ -56,7 +56,7 @@ else
 * Users can be randomly chosen, for example for A/B testing or canary releasing
 ```
 <featureList>
-  <add name="AFeature" isEnabled="true" randomFactor="0.1" />
+  <add name="AFeature" enabled="true" randomFactor="0.1" />
 </featureList>
 ```
 randomFactor = 0.1 means 10% of requests will have the feature enabled.
