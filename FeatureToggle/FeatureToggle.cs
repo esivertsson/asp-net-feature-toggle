@@ -12,7 +12,14 @@ namespace AspNetFeatureToggle
         
         public static void Initialize()
         {
-            Initialize(FeatureToggleSection.Config.FeatureList, new FileUserListReader());
+            var featureCollection = new FeatureCollection();
+
+            if (FeatureToggleSection.Config != null)
+            {
+                featureCollection = FeatureToggleSection.Config.FeatureList;
+            }
+
+            Initialize(featureCollection, new FileUserListReader());
         }
 
         public static void Initialize(FeatureCollection featureList, IUserListReader userListReader)
